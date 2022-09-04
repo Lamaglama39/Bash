@@ -1,33 +1,56 @@
 #!/bin/bashi
 
-#filename=$1
-#outfile=${filename%.pcx}.jpg
-#touch ${outfile}
+#Default
+size=320
+width=1
+colour="-color black"
+usage="Usage: $0 [-s N] [-w N] [-c S] imagefile..."
 
-for filename in "$@"; do
+while getopts ":s:w:c" opt; do
+  case $opt in
+    s  ) size=$OPTARG ;;
+    w  ) width=$OPTARG ;;
+    c  ) colour="-color $OPTARG" ;;
+    \? ) echo $usage 
+         exit 1
+  esac
+done
+
+shift $(($OPTIND -1))
+
+if [ -z "$@" ]; then
+  echo $usage
+  exit 1
+fi
+
+#入力ファイル処理
+for filename in "$*"; do
   pnmfile=${filename%.*}.ppm
 
   case $filename in
-    *.jpg ) exit 0;;
 
-    *.tga ) tgatoppm $filename > $pnmfile ;;
+    *.gif ) giftopnm $filename > $ppmfile ;;
 
-    *.xpm ) xpmtoppm $filename > $pnmfile ;;
+    *.tga ) tgatoppm $filename > $ppmfile ;;
 
-    *.pcx ) pcxtoppm $filename > $pnmfile ;;
+    *.xpm ) xpmtoppm $filename > $ppmfile ;;
 
-    *.tif ) tiftoppm $filename > $pnmfile ;;
+    *.pcx ) pcxtoppm $filename > $ppmfile ;;
+
+    *.tif ) tifftopnm $filename > $ppmfile ;;
     
-    *.gif ) giftoppm $filename > $pnmfile ;;
+    *.jpg ) jpegtopnm -quiet $filename > $ppmfile ;;
 
-      * ) echo "profile: $filename is an unknown graphics file."
-          exit 1  ;;
-    esac
+    * ) echo "$0: Unknown filetype '${filename##*.}'"
+        exit 1  ;;
+  esac
     
-    outfile=${pnmfile%.ppm}.new.jpg
+  outfile=${ppmfile%.ppm}.new.jpg
+  
+  pnmscale -quiet -xysize $size $size $ppmfile |
+    pnmmargin $colour $width |
+    pnmtojpeg > $outfile
 
-    pnmtojpg -$pnmfile > $outfile
-
-    rm $pnmfile
+  rm $ppmfile
 
 done
