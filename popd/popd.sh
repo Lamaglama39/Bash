@@ -1,0 +1,14 @@
+#!/bin/bash
+
+popd ()
+{
+    if [ -n "$DIR_STACK" ];then
+        DIR_STACK=${DIR_STACK#* }
+        cd ${DIR_STACK%% *}
+        echo "$PWD"
+    else
+        echo "stack empty, still in $PWD."
+    fi
+}
+
+popd
