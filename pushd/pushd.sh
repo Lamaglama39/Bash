@@ -1,50 +1,35 @@
 #!/bin/bash
 
-# pushd () 
-# {
-#     dirname=$1
-#     if cd ${dirname:?"missing directory name."}
-#     then
-#         DIR_STACK="$dirname ${DIR_STACK:-$PWD}"
-#         echo "$DIR_STACK"
-#     else
-#         echo "Still in $PWD."
-#     fi
-# }
-
-# pushd
-
-#pushd ()
-##{
-#    dirname=$1
-#    if [ -n "$dirname" ] && [ \( -d "$dirname" \) -a \( -x "$dirname" \) ]; then
-#        DIR_STACK="$dirname ${DIR_STACK:-$PWD}"
-#        cd $dirname
-#        echo "$DIR_STACK"
-#    else
-#        echo "Still in $PWD"
-#    fi
-#}
-
-selectd ()
+pushd ()
 {
-    DIR_STACK="/home /bin /user"
-    PS3='directory?'
-    dirstack=" $DIR_STACK "
+  if [ $(echo $1 | grep '^+[0-9][0-9]*$')]; then
+    
+    #pushd +N: N番目のディレクトリを先頭に持ってくる
+    let num=${1#+}
+    getNdirs $num
 
-    select selection in $dirstack; do
-      if [ $selection ]; then
-        DIR_STACK="$selection${dirstack%% $selection *}"
-        DIR_STACK="$DIR_STACK ${dirstack##* $selection }"
-        DIR_STACK=${DIR_STACK% }
-        echo $selection
-        cd $selection
-        
-        break
-      else
-        echo 'invalid selection.'
-      fi
-    done
+    DIR_STACK="$target$stackfront$DIR_STACK"
+    cd $target
+    edho "$DIR_STACK"
+
+  elif [ -z "$1" ]; then
+    #　引数なしのpushd: 先頭の2つのディレクトリを入れ替える
+    firstdir=${DIR_STACK%% *}
+    DIR_STACK=${DIR_STACK#* }
+    seconddir=${DIR_STACK%% *}
+    DIR_STACK=${DIR_STACK#* }
+    DIR_STACK="$seconddir $firstdir $DIR_STACK"
+    cd $seconddir
+
+  else
+    #通常のpushd dirname:
+    dirname=$1
+    if [ \( -d $dirname \) -a \( -x $dirname \) ]; then
+      DIR_STACK="$dirname ${DIR_STACK:-$PWD}"
+      cd $dirname
+      echo "$DIR_STACK"
+    else
+      echo still in "$PWD."
+    fi
+  fi
 }
-
-selectd
