@@ -1,23 +1,27 @@
 #!/bin/bash
-##################################################
-# Scrip tName  :
-# Discription  :
-# How to :
-#        : -
-#        : -
-##################################################
+######################################################################
+# Scrip tName  : script_template.sh
+# Discription  : Create an executable file describing how to use it.
+# How to : script_template.sh $1 $2 ...
+#     $1 : Name of executable file you want to create.
+#     $2 : Name of executable file you want to create.
+######################################################################
 
-filename="$1"'.sh'
-partition="##################################################"
+partition="############################################################"
 
-echo "#!/bin/bash
-$partition
-# Scrip tName  : $filename
-# Discription  :
-# How to :
-#     \$1 : -
-#     \$2 : -
-$partition
-" > "$filename"
+for file in "$@"
+do
+  output="$file"'.sh'
+  echo "#!/bin/bash
+  $partition
+  # Scrip tName  : $output
+  # Discription  :
+  # How to :
+  #     \$1 :
+  #     \$2 :
+  $partition
+  " > "$output"
 
-chmod +x "$filename"
+  chmod +x "$output"
+  echo "$output: Executable file creation is complete."
+done
