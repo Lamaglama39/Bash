@@ -1,4 +1,12 @@
-#!/bin/bashi
+#!/bin/bash
+##############################################################
+# Scrip tName  : change_jpg.sh
+# Discription  : Convert files of various formats to jpg.
+# How to : change_jpg.sh -s N -w N -c S imagefile
+#     -s :
+#     -w :
+#     -c :
+##############################################################
 
 #Default
 size=320
@@ -23,7 +31,7 @@ if [ -z "$@" ]; then
   exit 1
 fi
 
-#入力ファイル処理
+#output file handling
 for filename in "$*"; do
   pnmfile=${filename%.*}.ppm
 
