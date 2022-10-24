@@ -1,36 +1,22 @@
-# #!bin/bash
+#!/bin/bash
+######################################################################
+# Scrip tName  : options.sh
+# Discription  : Implement in function for argument checking.
+# How to : options.sh
+######################################################################
 
-# while [ -n "$(echo $1 | grep '-')" ]; do
-#   case $1 in
-#     -a ) ;;
-#     -b ) ;;
-#     -c ) ;;
-#     *  ) echo 'Usage: alice [-a] [-b] [-c] args...'
-#          exit 1
-#   esac
-#   shift
-# done
+options () {
+  while getopts ":a:b:c" OPT
+  do
+    case $OPT in
+      "a" ) echo "$OPTARG";;
+      "b" ) echo "$OPTARG";;
+      "c" ) echo "$OPTARG";;
+      * ) echo 'Usage: alice [-a] [-b barg] [-c] args...'
+           exit 1
+    esac
+  done
 
-# while [ -n "$(echo $1 | grep '-')" ]; do
-#   case $1 in
-#     -a ) ;;
-#     -b )
-#         shift ;;
-#     -c ) ;;
-#     *  ) echo 'Usage: alice [-a] [-b] [-c] args...'
-#          exit 1
-#   esac
-#   shift
-# done
-
-while getopts ":ab:c" opt; do
-  case $1 in
-    -a ) ;;
-    -b ) ;;
-    -c ) ;;
-    \? ) echo 'Usage: alice [-a] [-b barg] [-c] args...'
-         exit 1
-  esac
-done
-
-shift $(($OPTIND - 1))
+  shift $(($OPTIND - 1))
+}
+options "$@"
