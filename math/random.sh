@@ -1,7 +1,17 @@
 #!/bin/bash
+######################################################################
+# Scrip tName  : random.sh
+# Discription  : Generates random values.
+# How to : randomStr $1 $2
+#          randomStrNum $1 $2
+#     $1 : Number of digits of value to be generated
+#     $2 : Number of row digits to be generated
+#
+# How to : randomNum $1
+#     $1 : Maximum number of numbers to be generated.
+######################################################################
 
-# ランダムな文字列を生成。
-#第一引数に桁数を指定。デフォルトは10。第二引数に行数を指定。デフォルトは1。
+#Generate random string
 alias randomStr='_generateRandomString'
 function _generateRandomString() {
     local length=${1:-10}
@@ -10,20 +20,19 @@ function _generateRandomString() {
 }
 randomStr 20 5
 
-# ランダムな数値文字列を生成。
-#第一引数に桁数を指定。デフォルトは4。第二引数に行数を指定。デフォルトは1。
+#Generate random numeric string
 alias randomStrNum='_generateRandomNumberStr'
 function _generateRandomNumberStr() {
     local length=${1:-4}
     local line=${2:-1}
     od -vAn -to1 </dev/urandom  | tr -d " " | fold -w "$length" | head -n "$line"
 }
-#randomStrNum 10 2
+randomStrNum 10 2
 
-# 指定範囲内のランダムな整数を生成。第一引数に範囲を指定。デフォルトは100。
+#Create random integer
 alias randomNum='_generateRandomNumber'
 function _generateRandomNumber() {
     local range=${1:-100}
     awk 'BEGIN{srand();print int(rand() * '"${range}"')}'
 }
-#randomNum 1000
+randomNum 1000

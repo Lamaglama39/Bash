@@ -1,26 +1,21 @@
 #!/bin/bash
-##########################################################
-#概要 :PostBlogのshow.html.erbファイルの最終行に改行コードを挿入。
-#      挿入後、コミット&プッシュを実行
-##########################################################
-#--------------------------------------------------------------
-#変数宣言
-#--------------------------------------------------------------
-#ルートディレクトリ〜PostBlogまでの絶対パスを記載(自分の環境に合わせて変更してください)
-DIR="${HOME}/Ruby/projects/PostBlog"  
-#PostBlog〜改行を入れるファイルまでのパスを記載(自分の環境に合わせて変更してください)  
-newline_file="/app/views/users/show.html.erb"
+######################################################################
+# Scrip tName  : auto_commit.sh
+# Discription  : Automatically updates files specified in the script.
+#                Let the grass grow endlessly on github :)
+# How to : auto_commit.sh
+######################################################################
 
-#--------------------------------------------------------------
-#改行付加
-#--------------------------------------------------------------
-#${HOME}/Ruby/projects/PostBlog/app/views/users/show.html.erbの最終行に改行を挿入
-echo "" >>$DIR$newline_file
+#Full path to root directory.(Rewrite it to your environment)
+DIR="${HOME}/github/"
+#Path to file to be updated.(Rewrite it to your environment)
+newline_file="/Bash/auto_commit.sh"
 
-#--------------------------------------------------------------
-#GitHubにコミット&プッシュ
-#--------------------------------------------------------------
-cd $DIR
+#Insert a newline at the last line of $DIR$newline_file.
+echo "" >>"$DIR""$newline_file"
+
+#Commit and push to github
+cd "$DIR"
 git add .
-git commit -m"最終行に改行を挿入"
-git push origin master
+git commit -m"I skipped the update today...(:-<"
+git push origin main
