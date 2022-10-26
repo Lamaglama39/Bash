@@ -1,4 +1,10 @@
 #!/bin/bash
+######################################################################
+# Scrip tName  : find_hostname.sh
+# Discription  : Displays if the specified IP is in /etc/hosts
+# How to : find_hostname.sh $1
+#     $1 : IP address
+######################################################################
 
 find_ip ()  {
   case "$#" in
