@@ -28,33 +28,26 @@ the author uses the following environment.
 
 ## Usage
 
-1. checking
-<br>
-Check for correct condition.
+- checking
+  - Check for correct condition.
 
-1. conversion
-<br>
-Convert strings, numbers, images, etc.
+- conversion
+  - Convert strings, numbers, images, etc.
 
-1. function
-<br>
-For calling as a function when creating shell scripts.
+- function
+  - For calling as a function when creating shell scripts.
 
-1. math
-<br>
-Things related to mathematics.
+- math
+  - Things related to mathematics.
 
-1. syntax
-<br>
-So-called cheat sheets.
+- syntax
+  - So-called cheat sheets.
 
-1. template
-<br>
-What can be used as a template when creating shell scripts.
+- template
+  - What can be used as a template when creating shell scripts.
 
-1. terminal
-<br>
-Use as a command in the terminal
+- terminal
+  - Use as a command in the terminal
 
 ## Installation
 
