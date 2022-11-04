@@ -13,14 +13,15 @@ for file in "$@"
 do
   output="$file"'.sh'
   echo "#!/bin/bash
-  $partition
-  # Scrip tName  : $output
-  # Discription  :
-  # How to :
-  #     \$1 :
-  #     \$2 :
-  $partition
-  " > "$output"
+$partition
+# Scrip tName  : $output
+# Discription  :
+# How to :
+#     \$1 :
+#     \$2 :
+$partition
+set -euo pipefail
+  " >> "$output"
 
   chmod +x "$output"
   echo "$output: Executable file creation is complete."
