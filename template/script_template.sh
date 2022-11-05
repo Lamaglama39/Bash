@@ -11,7 +11,12 @@ partition="############################################################"
 
 for file in "$@"
 do
-  output="$file"'.sh'
+  if [[ $file =~ .sh ]]; then
+    output="$file"
+  else 
+    output="$file"'.sh'
+  fi
+  
   echo "#!/bin/bash
 $partition
 # Scrip tName  : $output
@@ -19,9 +24,10 @@ $partition
 # How to :
 #     \$1 :
 #     \$2 :
-$partition
-set -euo pipefail
-  " >> "$output"
+$partition" >> "$output"
+echo 'set -euo pipefail
+script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+cd $script_dir' >> "$output"
 
   chmod +x "$output"
   echo "$output: Executable file creation is complete."
