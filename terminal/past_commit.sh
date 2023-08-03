@@ -2,17 +2,15 @@
 ############################################################
 # Scrip tName  : past_commit.sh
 # Discription  : Outputs a random commit time.
-# How to : past_commit.sh -Y -M -D -h -m -s
-#     -Y : Specify what year
-#     -M : Specify what month
-#     -D : Specify what day
-#     -h : Specify what hour
-#     -m : Specify what hour
-#     -s : Specify what hour
+# Option : past_commit.sh -Y -M -D -h -m -s
+#        -Y : year    (example: 2023)
+#        -M : month   (example: Jan)
+#        -D : day     (example: 10)
+#        -h : hour    (example: 23)
+#        -m : minutes (example: 59)
+#        -s : seconds (example: 59)
 ############################################################
 set -euo pipefail
-script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
-cd $script_dir
 
 while getopts Y:M:D:h:m:s: option
 do
@@ -41,6 +39,15 @@ else
   echo 'SUCCESS:Outputs a random commit time.'
 fi
 
-echo "git commit --date=\"${month:-$(date | awk '{print $2}')} ${day:-$(date | awk '{print $3}')}" \
-     "${hour:-$((RANDOM%3+21))}:${minutes:-$((RANDOM%60))}:${second:-$((RANDOM%60))}" \
-     "${year:-$(date | awk '{print $6}')} +0900\""
+# Setting Commit Time
+BASE_TIME="${month:-$(date | awk '{print $2}')} ${day:-$(date | awk '{print $3}')} ${hour:-$((RANDOM%4 + 20))}:${minutes:-$((RANDOM%60))}:${second:-$((RANDOM%60))} ${year:-$(date | awk '{print $6}')} +0900"
+export GIT_AUTHOR_DATE=$BASE_TIME
+export GIT_COMMITTER_DATE=$BASE_TIME
+
+echo "AUTHOR_DATE:    $GIT_AUTHOR_DATE"
+echo "COMMITTER_DATE: $GIT_COMMITTER_DATE"
+
+git commit
+
+unset GIT_AUTHOR_DATE
+unset GIT_COMMITTER_DATE
